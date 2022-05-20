@@ -21,6 +21,7 @@ public interface ZjPaperTestMapper
 
     List<PaperTestVO> queryPaperTest(@Param("userId") String userId,@Param("paperId") Integer paperId);
 
+    Integer ResetAnswer(Integer id);
 
     List<Integer> queryIdByPaperId(Integer paperId);
 

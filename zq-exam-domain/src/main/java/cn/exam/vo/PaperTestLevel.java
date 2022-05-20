@@ -56,7 +56,7 @@ public class PaperTestLevel {
     private List<TestLevelOne> oneList2;
 
 
-    //主观
+    //判断
     /**
      * 题目数量
      */

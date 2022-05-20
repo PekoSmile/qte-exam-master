@@ -29,7 +29,7 @@ public class PaperTitleVO {
      */
     private String titleAnswer;
     /**
-     * 0单选题（a,b,c,d,e,f）  1 填空（0对 1错） 2主观
+     * 0单选题（a,b,c,d,e,f）  1 填空（0对 1错） 2判断
      */
     private Integer titleStatus;
     /**

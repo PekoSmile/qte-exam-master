@@ -11,14 +11,14 @@ spring:
     url: jdbc:mysql://localhost:3307/cat?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     username: root
     password: mysql
-    driverClass: com.mysql.jc.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     #    config-location: classpath:mybatis/mybatis-config.xml
     #    mapper-locations: classpath:mybatis/mapper/*.xml
 
 #文件上传临时目录
 #upload.file.absolute.path: /root/file/upload/
-upload.file.absolute.path: D:/upload/
+upload.file.absolute.path: classpath:/file/upload/
 
 

@@ -23,4 +23,8 @@
         SELECT id ,title_id titleId ,user_id userId ,user_name userName ,answer FROM zj_paper_test
         where paper_id =#{paperId} and user_id=#{userId}
     </select>
+
+    <update id="ResetAnswer">
+        update  zj_paper_test set answer=null where id=#{id}
+    </update>
 </mapper>

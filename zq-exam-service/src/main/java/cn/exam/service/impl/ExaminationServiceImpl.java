@@ -105,7 +105,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             }
             testLevel.setOneList2(oneList2);
         }
-        //主观
+        //判断
         if (!ObjectUtils.isEmpty(collect2)) {
             for (PaperTitleVO titleVO : collect2) {
                 TestLevelOne levelOne = new TestLevelOne();
@@ -211,7 +211,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             }
             testLevel.setOneList2(oneList2);
         }
-        //主观
+        //判断
         if (!ObjectUtils.isEmpty(collect2)) {
 
 
@@ -278,7 +278,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
         //让选择题每次生成的题目排列随机
 //        Collections.shuffle(zjTitleInfoList);
-        //填空或者主观
+        //填空或者判断
         List<ZjTitleInfo> collect1 = zjTitleInfos1.stream().filter(f -> f.getTitleStatus() == 1 || f.getTitleStatus() == 2).collect(Collectors.toList());
         for (ZjTitleInfo titleInfo : collect1) {
             int sum1 = zjTitleInfoList.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();

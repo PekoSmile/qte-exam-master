@@ -53,7 +53,7 @@ public class PaperTestServiceImpl implements PaperTestService {
         int sum = collect.stream().mapToInt(PaperTestVO::getTitleFraction).sum();
         //填空题总分
         int sum1 = collect1.stream().mapToInt(PaperTestVO::getTitleFraction).sum();
-        //主观题总分
+        //判断题总分
         int sum2 = collect2.stream().mapToInt(PaperTestVO::getTitleFraction).sum();
         testLevel.setExamDate(paperTestVO.getExamDate());
         testLevel.setPaperName(paperTestVO.getPaperName());
@@ -123,6 +123,8 @@ public class PaperTestServiceImpl implements PaperTestService {
             if (!ObjectUtils.isEmpty(val)) {
                 paperTest.setAnswer(val.toString());
                 paperTestMapper.updateByPrimaryKeySelective(paperTest);
+            }else {
+                paperTestMapper.ResetAnswer((Integer) id);
             }
         }
         List<ZjPaperTest> paperTests = paperTestMapper.queryListById(ids);
