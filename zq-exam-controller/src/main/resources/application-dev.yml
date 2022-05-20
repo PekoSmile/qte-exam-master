@@ -1,0 +1,24 @@
+#DataSource
+spring:
+  profiles: dev
+
+  # HTTP ENCODING
+  http:
+    encoding.charset: UTF-8
+    encoding.enable: true
+    encoding.force: true
+  datasource:
+    url: jdbc:mysql://localhost:3307/cat?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: mysql
+    driverClass: com.mysql.jc.jdbc.Driver
+    platform: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    config-location: classpath:mybatis/mybatis-config.xml
+    #    mapper-locations: classpath:mybatis/mapper/*.xml
+
+#文件上传临时目录
+#upload.file.absolute.path: /root/file/upload/
+upload.file.absolute.path: D:/upload/
+
+
