@@ -13,7 +13,7 @@ spring:
     password: mysql
     driverClass: com.mysql.jc.jdbc.Driver
     platform: mysql
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     #    config-location: classpath:mybatis/mybatis-config.xml
     #    mapper-locations: classpath:mybatis/mapper/*.xml
 
