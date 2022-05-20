@@ -1,0 +1,6 @@
+# 项目排除路径
+/zq-exam-base/target/
+/zq-exam-controller/target/
+/zq-exam-dao/target/
+/zq-exam-domain/target/
+/zq-exam-service/target/
