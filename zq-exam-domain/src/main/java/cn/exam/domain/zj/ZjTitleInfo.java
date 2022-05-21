@@ -28,8 +28,6 @@ public class ZjTitleInfo implements Serializable {
     @Column(name ="title_name")
     private String titleName;
 
-    @Column(name = "class_id")
-    private Integer classId;
     /**
      * 难度系数
      */

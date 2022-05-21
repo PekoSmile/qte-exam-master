@@ -10,11 +10,12 @@ package cn.exam.dao.mapper.zj;
 import cn.exam.dao.mapper.base.CommonBaseMapper;
 import cn.exam.query.RoleQuery;
 import cn.exam.domain.zj.ZjRole;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 
-
+@Mapper
 public interface ZjRoleMapper
         extends CommonBaseMapper<ZjRole> {
     List<ZjRole> queryPage(RoleQuery query);

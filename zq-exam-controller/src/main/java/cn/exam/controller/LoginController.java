@@ -2,6 +2,7 @@ package cn.exam.controller;
 
 import cn.exam.config.BaseController;
 import cn.exam.config.RedisUtil;
+import cn.exam.dao.mapper.zj.ZjClassInfoMapper;
 import cn.exam.dao.mapper.zj.ZjUserInfoMapper;
 import cn.exam.dao.mapper.zj.ZjUserRoleMapper;
 import cn.exam.domain.zj.ZjClassInfo;
@@ -48,8 +49,6 @@ public class LoginController extends BaseController {
 
     @Autowired
     private UserInfoService userInfoService;
-    @Autowired
-    private ZjClassInfoService classInfoService;
     @Autowired
     private ZjUserInfoMapper userInfoMapper;
     @Autowired
@@ -196,17 +195,6 @@ public class LoginController extends BaseController {
         sendJsonSuccessPage(resultDTO, response);
     }
 
-    /**
-     * 班级列表
-     */
-    @RequestMapping("queryClassInfo.htm")
-    public void queryClassInfo(HttpServletResponse response, ClassQuery query) {
-        ResultDTO<PageResult<List<ZjClassInfo>>> resultDTO = new ResultDTO<>();
-        PageResult<List<ZjClassInfo>> listPageResult = classInfoService.queryPage(query);
-        resultDTO.setResult(listPageResult);
-        resultDTO.buildReturnCode(SystemCode.RET_CODE_SUCC, SystemCode.RET_MSG_SUCC);
-        sendJsonSuccessPage(resultDTO, response);
-    }
 
     /**
      * 用户密码修改

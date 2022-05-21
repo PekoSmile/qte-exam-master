@@ -12,11 +12,12 @@ import cn.exam.domain.zj.ZjPaperInfo;
 import cn.exam.query.PaperQuery;
 import cn.exam.vo.PaperPageVO;
 import cn.exam.vo.PaperTitleVO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 
-
+@Mapper
 public interface ZjPaperInfoMapper
         extends CommonBaseMapper<ZjPaperInfo> {
 

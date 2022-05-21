@@ -236,21 +236,21 @@ public class ExaminationServiceImpl implements ExaminationService {
     public void autoPaper(ZjPaperInfo paperInfo) {
         String currentDateTime = DateUtil.getCurrentDateTime();
 /**
- * 通过班级ID查询班级与多少试题
+ * 通过科目ID查询科目多少试题
  **/
-        List<ZjTitleInfo> zjTitleInfos = titleInfoMapper.queryTitleByClassId(paperInfo.getClassId(),paperInfo.getSubjectId());
+        List<ZjTitleInfo> zjTitleInfos = titleInfoMapper.queryTitleBySubjectId(paperInfo.getSubjectId());
         if (zjTitleInfos.size() == 0) {
-            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "该班级试题不够");
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "该科目试题不够");
         }
         int sum = zjTitleInfos.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();
         /**jdk8 Stream流处理计算出这个集合里所有的分数**/
         if (sum < 100) {
-            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "该班级试题分数不够100分");
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "该科目试题分数不够100分");
         }
-        List<ZjTitleInfo> zjTitleInfos1 = titleInfoMapper.queryTitleByDifficulty(paperInfo.getDifficulty() - 2, paperInfo.getDifficulty() + 2, paperInfo.getClassId());
+        List<ZjTitleInfo> zjTitleInfos1 = titleInfoMapper.queryTitleByDifficulty(paperInfo.getDifficulty() - 2, paperInfo.getDifficulty() + 2, paperInfo.getSubjectId());
         int result1 = zjTitleInfos1.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();
         if (result1 < 100) {
-            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "该班级该难度的试题不够(分数不够组卷)");
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "该难度的科目试题不够(分数不够组卷)");
         }
         List<ZjTitleInfo> zjTitleInfoList = new ArrayList<>();
         //过滤所有单选
@@ -258,41 +258,72 @@ public class ExaminationServiceImpl implements ExaminationService {
         /**
          * 初始题库每次查出来的题目乱序，如果选择题只有10个那么  10道题乱序。如果20道  20题乱序然后抽取
          */
-        System.out.println(JSON.toJSONString(collect));
+        //System.out.println(JSON.toJSONString(collect));
+        //乱序
         Collections.shuffle(collect);
-//        System.out.println("----------------------------------------");
-//        System.out.println(JSON.toJSONString(collect));
-        if (collect.size() <= 10) {
-            collect.forEach(f -> {
-                ZjTitleInfo titleInfo = new ZjTitleInfo();
-                BeanUtils.copyProperties(f, titleInfo);
-                zjTitleInfoList.add(titleInfo);
-            });
-        } else {
-            List<ZjTitleInfo> zjTitleInfoList1 = collect.subList(0, 10);
+        //System.out.println("----------------------------------------");
+        //System.out.println(JSON.toJSONString(collect));
+        if(collect.size() >=20) {
+            List<ZjTitleInfo> zjTitleInfoList1 = collect.subList(0, 20);
+            //截取二十个单选题
             zjTitleInfoList1.forEach(f -> {
                 ZjTitleInfo titleInfo = new ZjTitleInfo();
                 BeanUtils.copyProperties(f, titleInfo);
                 zjTitleInfoList.add(titleInfo);
             });
+        }else{
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "选择题组卷题量分数不足");
         }
-        //让选择题每次生成的题目排列随机
-//        Collections.shuffle(zjTitleInfoList);
-        //填空或者判断
-        List<ZjTitleInfo> collect1 = zjTitleInfos1.stream().filter(f -> f.getTitleStatus() == 1 || f.getTitleStatus() == 2).collect(Collectors.toList());
-        for (ZjTitleInfo titleInfo : collect1) {
-            int sum1 = zjTitleInfoList.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();
-            if (sum1 + titleInfo.getTitleFraction() <= 100) {
+
+        //填空
+        List<ZjTitleInfo> collect1 = zjTitleInfos1.stream().filter(f -> f.getTitleStatus() == 1 ).collect(Collectors.toList());
+        Collections.shuffle(collect1);
+        if(collect1.size() >=5) {
+            List<ZjTitleInfo> zjTitleInfoList2 = collect.subList(0, 5);
+            //截取五个
+            zjTitleInfoList2.forEach(f -> {
+                ZjTitleInfo titleInfo = new ZjTitleInfo();
+                BeanUtils.copyProperties(f, titleInfo);
                 zjTitleInfoList.add(titleInfo);
-            } else if (sum1 + titleInfo.getTitleFraction() > 100) {
-                break;
-            }
+            });
+        }else{
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "填空题组卷题量分数不足");
         }
-        int sum1 = zjTitleInfoList.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();
-        if (sum1 < 100) {
-            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "分数不足不能组卷");
+        //判断
+        List<ZjTitleInfo> collect2 = zjTitleInfos1.stream().filter(f -> f.getTitleStatus() == 2 ).collect(Collectors.toList());
+        Collections.shuffle(collect2);
+        if(collect1.size() >=5) {
+            List<ZjTitleInfo> zjTitleInfoList3 = collect.subList(0, 5);
+            //截取五个
+            zjTitleInfoList3.forEach(f -> {
+                ZjTitleInfo titleInfo = new ZjTitleInfo();
+                BeanUtils.copyProperties(f, titleInfo);
+                zjTitleInfoList.add(titleInfo);
+            });
+        }else{
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "判断题组卷题量分数不足");
         }
-        paperInfo.setPaperScore(result1);
+        int total= zjTitleInfoList.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();
+        if (total != 100) {
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "组卷失败！请检查题库");
+
+        }
+
+//        List<ZjTitleInfo> collect1 = zjTitleInfos1.stream().filter(f -> f.getTitleStatus() == 1 ).collect(Collectors.toList());
+//        for (ZjTitleInfo titleInfo : collect1) {
+//            int sum1 = zjTitleInfoList.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();
+//            if (sum1 + titleInfo.getTitleFraction() <= 100) {
+//                zjTitleInfoList.add(titleInfo);
+//            } else if (sum1 + titleInfo.getTitleFraction() > 100) {
+//                break;
+//            }
+//        }
+//        int sum1 = zjTitleInfoList.stream().mapToInt(ZjTitleInfo::getTitleFraction).sum();
+////        if (sum1 < 100) {
+////            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "分数不足不能组卷");
+////
+////        }
+        paperInfo.setPaperScore(100);
         paperInfo.setCreateTime(currentDateTime);
         paperInfo.setUpdateTime(currentDateTime);
         paperInfoMapper.insertSelective(paperInfo);
@@ -337,8 +368,6 @@ public class ExaminationServiceImpl implements ExaminationService {
             paperUserMapper.insertSelective(paperUser);
         });
         paperTestMapper.insertList(paperTests);
-
-
     }
 
     @Override

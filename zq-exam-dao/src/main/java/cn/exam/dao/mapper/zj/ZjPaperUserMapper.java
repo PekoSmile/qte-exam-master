@@ -15,11 +15,12 @@ import cn.exam.vo.AchievementExportVO;
 import cn.exam.vo.PaperByUserIdVO;
 import cn.exam.vo.PaperExportVO;
 import cn.exam.vo.PaperUserPapage;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 
-
+@Mapper
 public interface ZjPaperUserMapper
         extends CommonBaseMapper<ZjPaperUser> {
 

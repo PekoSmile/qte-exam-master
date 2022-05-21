@@ -9,11 +9,12 @@ package cn.exam.dao.mapper.zj;
 
 import cn.exam.dao.mapper.base.CommonBaseMapper;
 import cn.exam.domain.zj.ZjSubjectUserLink;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 
-
+@Mapper
 public interface ZjSubjectUserLinkMapper
         extends CommonBaseMapper<ZjSubjectUserLink> {
 

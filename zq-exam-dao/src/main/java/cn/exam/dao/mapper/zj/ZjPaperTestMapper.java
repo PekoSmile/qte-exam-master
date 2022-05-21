@@ -10,12 +10,13 @@ package cn.exam.dao.mapper.zj;
 import cn.exam.dao.mapper.base.CommonBaseMapper;
 import cn.exam.domain.zj.ZjPaperTest;
 import cn.exam.vo.PaperTestVO;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 
-
+@Mapper
 public interface ZjPaperTestMapper
         extends CommonBaseMapper<ZjPaperTest> {
 

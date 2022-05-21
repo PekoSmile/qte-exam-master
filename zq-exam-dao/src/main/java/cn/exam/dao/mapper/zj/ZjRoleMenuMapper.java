@@ -10,12 +10,13 @@ package cn.exam.dao.mapper.zj;
 import cn.exam.dao.mapper.base.CommonBaseMapper;
 import cn.exam.vo.MenuInfoVO;
 import cn.exam.domain.zj.ZjRoleMenu;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 
-
+@Mapper
 public interface ZjRoleMenuMapper
         extends CommonBaseMapper<ZjRoleMenu> {
 

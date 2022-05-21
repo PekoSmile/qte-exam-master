@@ -10,10 +10,11 @@ package cn.exam.dao.mapper.zj;
 import cn.exam.dao.mapper.base.CommonBaseMapper;
 import cn.exam.domain.zj.ZjClassInfo;
 import cn.exam.query.ClassQuery;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-
+@Mapper
 public interface ZjClassInfoMapper
         extends CommonBaseMapper<ZjClassInfo> {
 

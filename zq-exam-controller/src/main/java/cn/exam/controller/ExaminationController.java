@@ -111,7 +111,7 @@ public class ExaminationController extends BaseController {
         paperInfo.setTeachId(user.getUserId());
         paperInfo.setTeachName(user.getUserName());
         examinationService.autoPaper(paperInfo);
-        sendJsonSuccess( response);
+        sendJsonSuccess(response);
     }
 
     @RequestMapping("updateTitleByList.htm")

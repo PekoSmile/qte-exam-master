@@ -10,11 +10,12 @@ package cn.exam.dao.mapper.zj;
 import cn.exam.dao.mapper.base.CommonBaseMapper;
 import cn.exam.domain.zj.ZjSubjectInfo;
 import cn.exam.query.SubjectQuery;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 
-
+@Mapper
 public interface ZjSubjectInfoMapper
         extends CommonBaseMapper<ZjSubjectInfo> {
 
