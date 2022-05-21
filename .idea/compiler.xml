@@ -15,4 +15,13 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="zq-exam-base" options="" />
+      <module name="zq-exam-controller" options="" />
+      <module name="zq-exam-dao" options="" />
+      <module name="zq-exam-domain" options="" />
+      <module name="zq-exam-service" options="" />
+    </option>
+  </component>
 </project>

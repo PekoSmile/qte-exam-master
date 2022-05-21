@@ -1,9 +1,9 @@
 /**
- * 	Copyright 2020 www.zj.cn
+ * 	Create on 2022 pekosmile
  *
  * 	All right reserved
  *
- * 	Create on 2020/5/20 05:20
+ * 	Create on 2022/5/20 05:20
  */
 package cn.exam.dao.mapper.zj;
 
@@ -42,7 +42,7 @@ public interface ZjPaperUserMapper
     /**
      * 查询考完试卷
      *
-     * @param userId
+     //* @param userId
      */
     List<PaperByUserIdVO> queryPaperByUserId(PaperByUserIdQuery query);
 
