@@ -45,11 +45,6 @@ public class ZjPaperInfo implements Serializable {
     @Column(name ="class_id")
     private Integer classId;
     /**
-     * 题型
-     */
-    @Column(name ="sub_type")
-    private String subType;
-    /**
      * 考试日期
      */
     @Column(name ="paper_date")

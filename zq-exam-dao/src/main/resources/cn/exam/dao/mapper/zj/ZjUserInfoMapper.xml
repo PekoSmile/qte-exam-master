@@ -23,5 +23,25 @@
     <select id="queryListByClassId" resultType="cn.exam.domain.zj.ZjUserInfo">
         select  user_id userId,user_name userName from zj_user_info where class_id =#{classId} and is_delete=0 and type_id=0
     </select>
+    <insert id="importUser" parameterType="java.util.List" >
+        insert into zj_user_info(user_id,password,user_name,class_id,type_id,is_delete,create_time,update_time)
+        values
+    <foreach collection="userInfoList" item="item" separator=",">
+        (
+        #{item.userId},
+        #{item.password},
+        #{item.userName},
+        #{item.classId},
+        #{item.typeId},
+        #{item.isDelete},
+        #{item.createTime},
+        #{item.updateTime}
+        )
+    </foreach>
+ON DUPLICATE KEY UPDATE
+user_id=VALUES(user_id),password=VALUES(password),user_name=VALUES(user_name),class_id=VALUES(class_id),
+type_id=VALUES(type_id),is_delete=VALUES(is_delete),create_time=VALUES(create_time),update_time=VALUES(update_time)
+    </insert>
+
 </mapper>
 

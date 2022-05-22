@@ -34,10 +34,12 @@ public class ZjUserInfo  {
     /**
      * 是否删除 0 否  1是
      */
-    @Column(name ="is_delete")
-    private Integer isDelete;
     @Column(name ="class_id")
     private Integer classId;
+    @Column(name ="type_id")
+    private Integer typeId;
+    @Column(name ="is_delete")
+    private Integer isDelete;
     /**
      * 开始时间
      */
@@ -48,7 +50,4 @@ public class ZjUserInfo  {
      */
     @Column(name ="update_time")
     private String updateTime;
-    @Column(name ="type_id")
-    private Integer typeId;
-
 }

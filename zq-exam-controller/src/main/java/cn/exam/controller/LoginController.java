@@ -6,6 +6,7 @@ import cn.exam.dao.mapper.zj.ZjClassInfoMapper;
 import cn.exam.dao.mapper.zj.ZjUserInfoMapper;
 import cn.exam.dao.mapper.zj.ZjUserRoleMapper;
 import cn.exam.domain.zj.ZjClassInfo;
+import cn.exam.domain.zj.ZjRole;
 import cn.exam.domain.zj.ZjUserInfo;
 import cn.exam.domain.zj.ZjUserRole;
 import cn.exam.query.ClassQuery;
@@ -19,22 +20,34 @@ import cn.exam.util.*;
 import cn.exam.vo.MenuInfoVO;
 import cn.exam.vo.UserPageVO;
 import cn.exam.vo.UserVO;
-import cn.zq.exam.so.UserInfoSO;
+import cn.exam.so.UserInfoSO;
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jcraft.jsch.UserInfo;
+import io.undertow.server.handlers.form.FormData;
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.registry.infomodel.User;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -130,6 +143,39 @@ public class LoginController extends BaseController {
         resultDTO.buildReturnCode(SystemCode.RET_CODE_SUCC, SystemCode.RET_MSG_SUCC);
         sendJson(resultDTO, response);
     }
+    /**
+     * 批量导入用户
+     * @param file Excel文件
+     */
+    @RequestMapping("importUser.htm")
+    public void importUser(MultipartFile file, HttpServletResponse response) {
+//        byte[] bytes = file.getBytes();
+//        InputStream in = new ByteArrayInputStream(bytes);
+        String currentTime = DateUtils.getCurrentTime();
+        try{
+            List<ZjUserInfo> importUserInfo = EasyExcelUtil.readExcelOneSheet(file.getInputStream(), ZjUserInfo.class);
+            List<ZjUserRole> importRoleInfo = new LinkedList<>();
+            for(ZjUserInfo userInfo:importUserInfo){
+                userInfo.setCreateTime(currentTime);
+                userInfo.setUpdateTime(currentTime);
+                ZjUserRole userRole = new ZjUserRole();
+                userRole.setUserId(userInfo.getUserId());
+                if (userInfo.getTypeId()==0){
+                    userRole.setRoleId("student");
+                }else if (userInfo.getTypeId()==1){
+                    userRole.setRoleId("admin");
+                }
+                userRole.setCreateTime(currentTime);
+                userRole.setUpdateTime(currentTime);
+                importRoleInfo.add(userRole);
+            }
+            userInfoMapper.importUser(importUserInfo);
+            userRoleMapper.importRole(importRoleInfo);
+        }catch (IOException e){
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "系统异常，导入失败");
+        }
+        sendJsonSuccess(response);
+    }
 
     /**
      * 退出
@@ -174,7 +220,7 @@ public class LoginController extends BaseController {
         if (so.getTypeId()==0){
             userRole.setRoleId("student");
         }else if (so.getTypeId()==1){
-            userRole.setRoleId("teacher");
+            userRole.setRoleId("admin");
         }
         userRole.setUserId(userInfo.getUserId());
         userRoleMapper.insertSelective(userRole);

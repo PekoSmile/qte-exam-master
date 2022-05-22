@@ -2,12 +2,12 @@ package cn.exam.service;
 
 import cn.exam.domain.zj.ZjPaperInfo;
 import cn.exam.domain.zj.ZjTitleInfo;
-import cn.exam.query.PaperByUserIdQuery;
+import cn.exam.query.PaperByUserEndQuery;
 import cn.exam.query.PaperQuery;
 import cn.exam.query.TitlePageQuery;
 import cn.exam.util.PageResult;
-import cn.exam.util.PageUtil;
 import cn.exam.vo.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -42,7 +42,9 @@ public interface ExaminationService {
     //修改试题
     void updateTitle(String titleString);
 
-    PageResult<List<PaperByUserIdVO>> queryPaperByUserId(PaperByUserIdQuery query);
+    PageResult<List<PaperByUserEndVO>> queryPaperByUserEnd(PaperByUserEndQuery query);
+    //导入试题
+    void importTitle(MultipartFile file);
 
 
 

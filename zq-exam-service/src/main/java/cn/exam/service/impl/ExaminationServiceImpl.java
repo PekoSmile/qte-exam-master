@@ -2,7 +2,7 @@ package cn.exam.service.impl;
 
 import cn.exam.dao.mapper.zj.*;
 import cn.exam.domain.zj.*;
-import cn.exam.query.PaperByUserIdQuery;
+import cn.exam.query.PaperByUserEndQuery;
 import cn.exam.query.PaperQuery;
 import cn.exam.query.TitlePageQuery;
 import cn.exam.service.ExaminationService;
@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,8 +48,23 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 
     @Override
-    public PageResult<List<PaperByUserIdVO>> queryPaperByUserId(PaperByUserIdQuery query) {
-        return PageUtil.execute(() -> paperUserMapper.queryPaperByUserId(query), query);
+    public PageResult<List<PaperByUserEndVO>> queryPaperByUserEnd(PaperByUserEndQuery query) {
+        return PageUtil.execute(() -> paperUserMapper.queryPaperByUserEnd(query), query);
+    }
+
+    @Override
+    public void importTitle(MultipartFile file) {
+        String currentTime = DateUtils.getCurrentTime();
+        try {
+            List<ZjTitleInfo> importTitleInfo = EasyExcelUtil.readExcelOneSheet(file.getInputStream(), ZjTitleInfo.class);
+            for (ZjTitleInfo titleInfo : importTitleInfo) {
+                titleInfo.setCreateTime(currentTime);
+                titleInfo.setUpdateTime(currentTime);
+            }
+            titleInfoMapper.importTitleInfo(importTitleInfo);
+        }catch(IOException e){
+            throw new ExpressException(SystemCode.SERVICE_FAILD_CODE, "系统异常，导入失败");
+        }
     }
 
     @Override
@@ -279,7 +296,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         List<ZjTitleInfo> collect1 = zjTitleInfos1.stream().filter(f -> f.getTitleStatus() == 1 ).collect(Collectors.toList());
         Collections.shuffle(collect1);
         if(collect1.size() >=5) {
-            List<ZjTitleInfo> zjTitleInfoList2 = collect.subList(0, 5);
+            List<ZjTitleInfo> zjTitleInfoList2 = collect1.subList(0, 5);
             //截取五个
             zjTitleInfoList2.forEach(f -> {
                 ZjTitleInfo titleInfo = new ZjTitleInfo();
@@ -293,7 +310,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         List<ZjTitleInfo> collect2 = zjTitleInfos1.stream().filter(f -> f.getTitleStatus() == 2 ).collect(Collectors.toList());
         Collections.shuffle(collect2);
         if(collect1.size() >=5) {
-            List<ZjTitleInfo> zjTitleInfoList3 = collect.subList(0, 5);
+            List<ZjTitleInfo> zjTitleInfoList3 = collect2.subList(0, 5);
             //截取五个
             zjTitleInfoList3.forEach(f -> {
                 ZjTitleInfo titleInfo = new ZjTitleInfo();

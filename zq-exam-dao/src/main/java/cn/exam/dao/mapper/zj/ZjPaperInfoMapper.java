@@ -28,7 +28,7 @@ public interface ZjPaperInfoMapper
     List<PaperPageVO> queryPage(PaperQuery query);
 
     /**
-     * 教师管理员  试卷页面
+     * 管理员  试卷页面
      * @param query
      * @return
      */

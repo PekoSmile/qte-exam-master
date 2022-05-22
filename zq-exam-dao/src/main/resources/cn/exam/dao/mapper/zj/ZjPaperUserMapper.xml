@@ -7,8 +7,6 @@
         select id from zj_paper_user where paper_id=#{paperId} and user_id =#{userId} and status=0
     </select>
 
-
-
     <sql id="baseCondition">
         <where>
             <if test="keyWords!=null and keyWords!=''">
@@ -37,6 +35,7 @@
 
         </where>
     </sql>
+
     <select id="queryPage" resultType="cn.exam.vo.PaperUserPapage" parameterType="cn.exam.query.PaperUserQuery">
         SELECT a.paper_id paperId,d.class_id classId, a.user_id ,a.fraction ,b.paper_name paperName, b.difficulty ,c.user_name userName,c.class_id,d.class_name className ,b.paper_score paperScore
         FROM zj_paper_user a
@@ -59,11 +58,11 @@
         LEFT JOIN zj_user_info c ON a.user_id = c.user_id
         LEFT JOIN zj_class_info d ON c.class_id = d.class_id
     </select>
-    <select id="queryPaperByUserId" resultType="cn.exam.vo.PaperByUserIdVO" parameterType="cn.exam.query.PaperByUserIdQuery">
-        SELECT a.fraction ,b.paper_name paperName,c.user_name userName,b.paper_score paperScore,a.id,b.paper_id paperId
+    <select id="queryPaperByUserEnd" resultType="cn.exam.vo.PaperByUserEndVO" parameterType="cn.exam.query.PaperByUserEndQuery">
+        SELECT c.user_id userId,a.fraction ,b.paper_name paperName,c.user_name userName,b.paper_score paperScore,a.id,b.paper_id paperId
         FROM zj_paper_user a
             LEFT JOIN zj_paper_info b ON a.paper_id = b.paper_id
             LEFT JOIN zj_user_info c ON a.user_id = c.user_id
-        WHERE a.status =1 and a.user_id=#{userId}
+        WHERE a.status =1
     </select>
 </mapper>

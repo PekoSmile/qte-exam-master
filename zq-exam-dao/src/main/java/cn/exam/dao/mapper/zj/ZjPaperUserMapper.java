@@ -9,10 +9,10 @@ package cn.exam.dao.mapper.zj;
 
 import cn.exam.dao.mapper.base.CommonBaseMapper;
 import cn.exam.domain.zj.ZjPaperUser;
-import cn.exam.query.PaperByUserIdQuery;
+import cn.exam.query.PaperByUserEndQuery;
 import cn.exam.query.PaperUserQuery;
 import cn.exam.vo.AchievementExportVO;
-import cn.exam.vo.PaperByUserIdVO;
+import cn.exam.vo.PaperByUserEndVO;
 import cn.exam.vo.PaperExportVO;
 import cn.exam.vo.PaperUserPapage;
 import org.apache.ibatis.annotations.Mapper;
@@ -45,6 +45,6 @@ public interface ZjPaperUserMapper
      *
      //* @param userId
      */
-    List<PaperByUserIdVO> queryPaperByUserId(PaperByUserIdQuery query);
+    List<PaperByUserEndVO> queryPaperByUserEnd(PaperByUserEndQuery query);
 
 }

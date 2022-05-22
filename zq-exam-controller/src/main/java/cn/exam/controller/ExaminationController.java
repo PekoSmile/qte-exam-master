@@ -2,26 +2,21 @@ package cn.exam.controller;
 
 import cn.exam.config.BaseController;
 import cn.exam.config.UserUtil;
-import cn.exam.dao.mapper.zj.ZjPaperTestMapper;
-import cn.exam.dao.mapper.zj.ZjSubjectUserLinkMapper;
-import cn.exam.dao.mapper.zj.ZjTitleInfoMapper;
 import cn.exam.domain.zj.*;
-import cn.exam.query.PaperByUserIdQuery;
+import cn.exam.query.PaperByUserEndQuery;
 import cn.exam.query.PaperQuery;
 import cn.exam.query.TitlePageQuery;
 import cn.exam.service.ExaminationService;
-import cn.exam.util.DateUtil;
 import cn.exam.util.PageResult;
 import cn.exam.util.ResultDTO;
 import cn.exam.util.SystemCode;
 import cn.exam.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -96,10 +91,9 @@ public class ExaminationController extends BaseController {
     }
     //考生查看考完的试卷
     @RequestMapping("queryPaperCompleted.htm")
-    public void   queryPaperCompleted(Integer paperId,HttpServletResponse response) {
+    public void   queryPaperCompleted(Integer paperId,String userId,HttpServletResponse response) {
         ResultDTO<PaperTestLevel> resultDTO = new ResultDTO<>();
-        UserVO user = userUtil.getUser();
-        resultDTO.setResult(examinationService.queryPaperCompleted(paperId,user.getUserId()));
+        resultDTO.setResult(examinationService.queryPaperCompleted(paperId,userId));
         resultDTO.buildReturnCode(SystemCode.RET_CODE_SUCC, SystemCode.RET_MSG_SUCC);
         sendJsonSuccess(resultDTO, response);
     }
@@ -123,17 +117,26 @@ public class ExaminationController extends BaseController {
     /**
      * 学生已考试卷查询分页
      */
-    @RequestMapping("queryPaperByUserId.htm")
-    public void queryPaperByUserId(PaperByUserIdQuery query, HttpServletResponse response){
-        ResultDTO<PageResult<List<PaperByUserIdVO>>> resultDTO = new ResultDTO<>();
-        UserVO user = userUtil.getUser();
-        query.setUserId(user.getUserId());
-        PageResult<List<PaperByUserIdVO>> listPageResult = examinationService.queryPaperByUserId(query);
+    @RequestMapping("queryPaperByUserEnd.htm")
+    public void queryPaperByUserEnd(PaperByUserEndQuery query, HttpServletResponse response){
+        ResultDTO<PageResult<List<PaperByUserEndVO>>> resultDTO = new ResultDTO<>();
+        PageResult<List<PaperByUserEndVO>> listPageResult = examinationService.queryPaperByUserEnd(query);
         resultDTO.setResult(listPageResult);
         resultDTO.buildReturnCode(SystemCode.RET_CODE_SUCC, SystemCode.RET_MSG_SUCC);
         sendJsonSuccessPage(resultDTO, response);
 
     }
+    /**
+     * 导入题目
+     */
+    @RequestMapping("importTitle.htm")
+    public void importTitle(MultipartFile file, HttpServletResponse response) {
+        UserVO user = userUtil.getUser();
+        examinationService.importTitle(file);
+        sendJsonSuccess(response);
+    }
+
+
 
 
 

@@ -13,6 +13,7 @@ import cn.exam.query.UserQuery;
 import cn.exam.vo.UserPageVO;
 import cn.exam.vo.UserRoleVO;
 import cn.exam.vo.UserVO;
+import com.jcraft.jsch.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -38,6 +39,8 @@ public interface ZjUserInfoMapper extends CommonBaseMapper<ZjUserInfo> {
     List<UserPageVO>queryPage(UserQuery query);
 
     List<ZjUserInfo> queryListByClassId(Integer classId);
+
+    Integer importUser(@Param(value = "userInfoList") List<ZjUserInfo> userInfoList);
 
 
 

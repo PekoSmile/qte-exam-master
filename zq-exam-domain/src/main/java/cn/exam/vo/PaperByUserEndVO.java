@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaperByUserIdVO {
+public class PaperByUserEndVO {
     private Integer id;
+    private String userId;
     private String userName;
     private String paperName;
     private Integer fraction;

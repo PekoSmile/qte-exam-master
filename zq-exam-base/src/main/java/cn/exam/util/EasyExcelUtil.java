@@ -73,30 +73,30 @@ public class EasyExcelUtil {
      * @throws IOException 异常对象
      */
     public static void writeWeb(String fileName, final Class<?> clazz,List<?> datas,HttpServletResponse response) throws IOException {
-        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        // 这里注意 使用swagger 会导致各种问题，请直接用浏览器或者用postman
     	OutputStream outputStream = response.getOutputStream();
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        // 这里URLEncoder.encode可以防止中文乱码
         fileName = URLEncoder.encode(fileName, "UTF-8");
         response.setHeader("Content-disposition", "attachment;filename=" + fileName );
         ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream()).build();
-        //这里 需要指定写用哪个class去写
+        //指定写用哪个class去写
     	WriteSheet writeSheet = EasyExcel.writerSheet(0, "sheet1").head(clazz).build();
     	excelWriter.write(datas, writeSheet);
 
-        //千万别忘记finish 会帮忙关闭流
+        //关闭流
         outputStream.flush();
 		excelWriter.finish();
 	}
 
 
 	public static void writeSheelWeb(String fileName, final Class<?> clazz,List<?> datas,String sheelName,HttpServletResponse response) throws IOException {
-		// 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+
 		OutputStream outputStream = response.getOutputStream();
 		response.setContentType("application/vnd.ms-excel");
 		response.setCharacterEncoding("utf-8");
-		// 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+
 		fileName = URLEncoder.encode(fileName, "UTF-8");
 		response.setHeader("Content-disposition", "attachment;filename=" + fileName );
 		ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream()).build();
@@ -105,7 +105,6 @@ public class EasyExcelUtil {
 			WriteSheet writeSheet = EasyExcel.writerSheet(i, sheelName).head(clazz).build();
 			excelWriter.write(datas, writeSheet);
 		}
-		//千万别忘记finish 会帮忙关闭流
 		excelWriter.finish();
 		outputStream.flush();
 	}

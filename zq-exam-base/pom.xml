@@ -22,10 +22,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.freemarker</groupId>-->
-        <!--            <artifactId>freemarker</artifactId>-->
-        <!--        </dependency>-->
+
         <dependency>
             <groupId>org.lucee</groupId>
             <artifactId>httpcomponents-httpmime</artifactId>

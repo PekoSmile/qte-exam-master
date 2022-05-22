@@ -1,4 +1,4 @@
-package cn.zq.exam.so;
+package cn.exam.so;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class UserInfoSO {
     /**
-     * 学号  或 教师号
+     * 学号  或 工号
      */
     private String userId;
 

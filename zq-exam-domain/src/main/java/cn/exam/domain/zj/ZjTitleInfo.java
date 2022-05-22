@@ -1,5 +1,6 @@
 package cn.exam.domain.zj;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -21,12 +22,18 @@ public class ZjTitleInfo implements Serializable {
      */
     @Id
     @Column(name ="title_id")
+    @ExcelIgnore
     private Integer titleId;
     /**
      * 题目
      */
     @Column(name ="title_name")
     private String titleName;
+    /**
+     * 科目id
+     */
+    @Column(name="subject_id")
+    private Integer subjectId;
 
     /**
      * 难度系数
@@ -89,6 +96,5 @@ public class ZjTitleInfo implements Serializable {
      */
     @Column(name ="update_time")
     private String updateTime;
-    @Column(name="subject_id")
-    private Integer subjectId;
+
 }

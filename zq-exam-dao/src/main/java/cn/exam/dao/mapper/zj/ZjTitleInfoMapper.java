@@ -33,4 +33,5 @@ public interface ZjTitleInfoMapper
     List<ZjTitleInfo> queryListByTitleId(@Param("titleIdList") List<Integer> titleIdList);
 
     List<ZjTitleInfo> queryListByTitleIdE(@Param("titleIdList") List<Integer> titleIdList);
+    Integer importTitleInfo(@Param("importTitleList")List<ZjTitleInfo> importTitleList);
 }
