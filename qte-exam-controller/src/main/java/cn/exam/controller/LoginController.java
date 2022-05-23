@@ -259,7 +259,7 @@ public class LoginController extends BaseController {
         }
         QteUserInfo userInfo = new QteUserInfo();
         //如果密码修改，则和原密码对比  不一致新密码重新md5存入数据库
-        if (!MD5Utils.md5(so.getPassword()).equals(qteUserInfo.getPassword())) {
+        if ((!MD5Utils.md5(so.getPassword()).equals(qteUserInfo.getPassword())) && (!so.getPassword().isEmpty())) {
             String s = MD5Utils.md5(so.getPassword());
             userInfo.setPassword(s);
         }
