@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.exam.dao.mapper.qte.QteUserRoleMapper">
+
+    <insert id="importRole" parameterType="java.util.List">
+        insert into qte_user_role(user_id,role_id,create_time,update_time)values
+        <foreach collection="roleInfoList" item="item" separator=",">
+            (
+            #{item.userId},
+            #{item.roleId},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+</mapper>

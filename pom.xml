@@ -5,22 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.exam</groupId>
-    <artifactId>zq-exam-parent</artifactId>
+    <artifactId>qte-exam-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>zq-exam-dao</module>
-        <module>zq-exam-controller</module>
-        <module>zq-exam-service</module>
-        <module>zq-exam-domain</module>
-        <module>zq-exam-base</module>
+        <module>qte-exam-dao</module>
+        <module>qte-exam-controller</module>
+        <module>qte-exam-service</module>
+        <module>qte-exam-domain</module>
+        <module>qte-exam-base</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.7.RELEASE</version>
     </parent>
-    <name>zq-exam-parent</name>
+    <name>qte-exam-parent</name>
     <profiles>
         <!--开发环境-->
         <profile>
