@@ -55,11 +55,6 @@ public class QtePaperInfo implements Serializable {
     @Column(name ="exam_date")
     private String examDate;
     /**
-     * 考试题目
-     */
-    @Column(name ="paper_num")
-    private Integer paperNum;
-    /**
      *
      */
     @Column(name ="user_name")
